@@ -85,6 +85,8 @@ model_list <- list(
   "Model 2" = lm_model_2
 )
 
+msummary(model_list, stars = TRUE)
 modelplot(model_list)
 
 modelplot(lm_model_e)
+

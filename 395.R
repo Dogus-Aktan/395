@@ -7,9 +7,9 @@ set.seed(006)
 N <- 200
 
 
-x <- rnorm(N) + 1
+x <- rnorm(N) + 15
 
-y <- rnorm(N) + 1
+y <- rnorm(N) + 15
 
 
 c <- ifelse( x + y > 2 , 1 , 0)

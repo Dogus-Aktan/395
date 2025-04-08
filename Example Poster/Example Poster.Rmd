@@ -1,0 +1,136 @@
+---
+title: "My Witty Yet Informative Title: How to make Posters"
+author:
+  - name: Me
+    affil: 1
+    orcid: 
+  - name: BFF 1
+    affil: 2
+affiliation:
+  - num: 1
+    address: 
+  - num: 2
+    address: 
+column_numbers: 3
+logoright_name: https&#58;//raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png
+logoleft_name: https&#58;//raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png
+output: 
+  posterdown::posterdown_html:
+    self_contained: false
+bibliography: packages.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(modelsummary)
+library(gganimate)
+library(ggthemes)
+```
+
+# Introduction
+
+You have around sentences to make your introduction. It should of course include your research question. You can even call this section `Research Question' and get to the point. Typically you want short sentences. But using bullet points can also work. You should however clearly state your question, and your argument.
+
+## Previous Findings
+
+1. If you want to situate your contribution in the literature
+2. You can use this format, and give yourself 3-4 points.
+3. No need and no place to do your full literature review here.
+
+# Theory / Argument
+
+Clearly explain your theory and argument in 2-3 sentences. We argue that X is associated with Y because of theory. Explain the mechanism at play and maybe put your DAG (even a simplified form) here.
+
+# Data and Methods
+
+Tell us about your data in few words and graphs. What data did you collect? What datasets did you use? How did you operationalize your independent and dependent variables (if any explanations are necessary). Again, tables and graphs over words. 
+
+You should tell us at the minimum: Key descriptive stats. And what type of analysis did you run. You might want to include your regression equation (or code ) here, which some people like and some do not.
+
+```{r mytable, out.width='80%'}
+knitr::kable(iris[1:10, 1:4], caption = 'Table caption.',align = 'c',"html")
+```
+
+Or with figures: Figure \@ref(fig:standard-plot), or Figure \@ref(fig:morefigs).
+
+```{r standard-plot, out.width='80%', fig.align='center', fig.cap='Great figure!', fig.height=5}
+plot(mtcars[1:2])
+```
+
+```{r morefigs, out.width='80%', echo=FALSE, fig.cap='Amazing, right?!', fig.height=5}
+set.seed(006)
+
+N <- 200
+
+x <- rnorm(N, mean = 1, sd = 1 )
+
+e <-rnorm(N, mean = 0, sd = 1) 
+
+c <- ifelse( x > 1 , 1, 0)
+
+y <- 1 + 2.5 * c + e 
+
+
+
+data <- tibble(
+  x = x,
+  y = y,
+  c = c
+)
+
+ggplot(
+  data = data,
+  mapping = aes(x = x, y = y)
+) +
+  geom_point() +
+theme_minimal() +
+  labs(title = "Scatter Plot of X and Y",  x = "X", y = "Y"
+  )
+```
+
+
+# Findings
+
+Here tell us about your findings. Again in word and in charts. 
+
+```{r, out.width='80%', echo=FALSE, fig.cap='Graph', fig.height=4}
+
+ggplot(
+  data = data,
+  mapping = aes(x = x, y = y, color = factor(c))
+) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Scatter Plot of X and Y",  x = "X", y = "Y"
+  )  
+```
+
+
+
+```{r, out.width='80%', echo=FALSE, fig.cap='Graph', fig.height=4}
+lm_model_1 <- lm(y ~ x, data = data)
+
+lm_model_2 <- lm(y ~ x + c, data = data)
+
+model_list <- list(
+  "Model 1" = lm_model_1,
+  "Model 2" = lm_model_2
+)
+
+msummary(model_list, stars = TRUE)
+```
+
+```{r, out.width='80%', echo=FALSE, fig.cap='Graph', fig.height=4}
+modelplot(model_list)
+```
+
+# Conclusion
+
+Tell us about your conclusion that we should take from your findings. Are there reasons to be cautious about your findings? How and what would next steps in this line of research would look like? What are the key implications?
+
+```{r, include=FALSE}
+knitr::write_bib(c('knitr','rmarkdown','posterdown','pagedown'), 'packages.bib')
+```
+
+# References
